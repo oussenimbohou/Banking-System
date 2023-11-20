@@ -6,6 +6,7 @@ import com.barack.securebanksystem.entity.User;
 import com.barack.securebanksystem.repository.UserRepository;
 import com.barack.securebanksystem.utilis.AccountUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ public class UserServiceImpl implements  UserService{
     private TransactionService transactionService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
     private  boolean flag;
     @Override
     public BankResponse createAccount(UserRequest userRequest) {
@@ -35,6 +38,7 @@ public class UserServiceImpl implements  UserService{
                 .firstName(userRequest.getFirstName())
                 .lastName(userRequest.getLastName())
                 .otherName(userRequest.getOtherName())
+                .password(passwordEncoder.encode(userRequest.getPassword()))
                 .gender(userRequest.getGender())
                 .address(userRequest.getAddress())
                 .stateOfOrigin(userRequest.getStateOfOrigin())
